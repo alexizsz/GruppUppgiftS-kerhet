@@ -1,4 +1,4 @@
-package com.example.gruppuppgift_safety;
+package com.example.gruppuppgift_safety.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

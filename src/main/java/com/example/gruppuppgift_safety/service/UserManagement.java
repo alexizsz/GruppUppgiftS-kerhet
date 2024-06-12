@@ -1,17 +1,16 @@
-package com.example.gruppuppgift_safety;
+package com.example.gruppuppgift_safety.service;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-@RequestMapping("/")
-public class Homepage {
+@RequestMapping("/manageuser")
+public class UserManagement {
 
     @GetMapping
-    public String welcome(){
-        return "homepage";
+    public String userManagementPage(){
+        return "manageuser";
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.gruppuppgift_safety;
+package com.example.gruppuppgift_safety.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
 
     @Bean
-    @GetMapping("/login")
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(
