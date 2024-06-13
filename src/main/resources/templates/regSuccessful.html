@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>admin</title>'
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 <header>
@@ -20,7 +20,11 @@
     </nav>
 </header>
 <main>
-    <p>This will be the ADMIN page</p>
+    <h2>User Created Successfully</h2>
+    <p>User Name: <span th:text="${userName}"></span></p>
 </main>
+<footer>
+    <p>&copy; This will be the footer</p>
+</footer>
 </body>
 </html>

@@ -1,0 +1,42 @@
+nav {
+    background-color: #333; /* Dark background color */
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none; /* Remove default list styling */
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    float: left; /* Float the list items to create horizontal layout */
+}
+
+nav ul li a {
+    display: block;
+    color: white; /* Text color */
+    text-align: center;
+    padding: 14px 20px; /* Padding inside each link */
+    text-decoration: none; /* Remove underline */
+}
+
+nav ul li a:hover {
+    background-color: #555; /* Darker background color on hover */
+}
+
+/* Optional: Add styling for active link */
+nav ul li.active a {
+    background-color: #4CAF50; /* Green background color for active link */
+}
+
+/* Optional: Center the navbar items */
+nav ul {
+    display: flex;
+    justify-content: center;
+}
+
+/* Optional: Adjust spacing between navbar items */
+nav ul li {
+    margin: 0 10px; /* Adjust margin as needed */
+}
