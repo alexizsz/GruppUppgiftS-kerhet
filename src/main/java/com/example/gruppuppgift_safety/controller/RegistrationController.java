@@ -1,6 +1,7 @@
 package com.example.gruppuppgift_safety.controller;
 
 import com.example.gruppuppgift_safety.model.AppUser;
+import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,18 +33,27 @@ public class RegistrationController {
         return "register";
     }
 
+
     @PostMapping
-    public String registerUser(@ModelAttribute AppUser appUser, Model model){
+    public String registerUser(@Valid @ModelAttribute("user") AppUser appUser,BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("error", "There are errors in the form, please correct them");
+            System.out.println(appUser);
+            return "register";
+        }
+
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
-        UserDetails newUser = User.withUsername(appUser.getEmail())
+        UserDetails newUser = User.withUsername(appUser.getName())
                         .password(appUser.getPassword())
                                 .roles("USER")
                                         .build();
         ((InMemoryUserDetailsManager) userDetailsService).createUser(newUser);
 
         model.addAttribute("user", appUser);
-        model.addAttribute("userName", appUser.getEmail());
-        return "regSuccessful";
+        model.addAttribute("userName", appUser.getName());
+
+            return "regSuccessful";
+
     }
 }

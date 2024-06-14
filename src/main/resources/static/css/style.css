@@ -1,42 +1,48 @@
 nav {
-    background-color: #333; /* Dark background color */
+    background-color: #333;
     overflow: hidden;
 }
 
 nav ul {
-    list-style-type: none; /* Remove default list styling */
+    list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
 nav ul li {
-    float: left; /* Float the list items to create horizontal layout */
+    float: left;
 }
 
 nav ul li a {
     display: block;
-    color: white; /* Text color */
+    color: white;
     text-align: center;
-    padding: 14px 20px; /* Padding inside each link */
-    text-decoration: none; /* Remove underline */
+    padding: 14px 20px;
+    text-decoration: none;
 }
 
 nav ul li a:hover {
-    background-color: #555; /* Darker background color on hover */
+    background-color: #555;
 }
 
-/* Optional: Add styling for active link */
+
 nav ul li.active a {
-    background-color: #4CAF50; /* Green background color for active link */
+    background-color: #4CAF50;
 }
 
-/* Optional: Center the navbar items */
+
 nav ul {
     display: flex;
     justify-content: center;
 }
 
-/* Optional: Adjust spacing between navbar items */
+
 nav ul li {
-    margin: 0 10px; /* Adjust margin as needed */
+    margin: 0 10px;
 }
+
+.error {
+    color: red;
+    font-style: italic;
+}
+

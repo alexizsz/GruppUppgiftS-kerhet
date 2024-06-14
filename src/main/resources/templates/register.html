@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>User Registration</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
@@ -10,23 +10,28 @@
     <h1>Welcome to the GruppUppgiftSafety</h1>
     <nav>
         <ul>
-            <li><a href="/">Home</a> </li>
-            <li><a href="/login">Login</a> </li>
-            <li><a href="/register">Registration</a> </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Registration</a></li>
             <li><a href="/manageuser">Manage users</a></li>
-            <li><a href="/admin">Admin</a> </li>
+            <li><a href="/admin">Admin</a></li>
         </ul>
     </nav>
 </header>
 <div align="center">
     <h1>User Registration</h1>
     <form action="#" th:action="@{/register}" method="post" th:object="${user}">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span><br/>
 
         <label>E-mail:</label>
-        <input type="text" th:field="*{email}" /><br/>
+        <input type="text" th:field="*{email}" />
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span><br/>
 
         <label>Password:</label>
-        <input type="password" th:field="*{password}" /><br/>
+        <input type="password" th:field="*{password}" />
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span><br/>
 
         <button type="submit">Register</button>
     </form>
