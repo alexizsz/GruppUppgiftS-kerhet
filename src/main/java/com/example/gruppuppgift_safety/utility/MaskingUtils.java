@@ -4,7 +4,7 @@ package com.example.gruppuppgift_safety.utility;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HtmlUtility {
+public class MaskingUtils {
 
     public String maskEmail(String email) {
         if (email == null) {
