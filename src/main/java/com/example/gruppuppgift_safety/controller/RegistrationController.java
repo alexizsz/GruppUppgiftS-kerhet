@@ -2,6 +2,7 @@ package com.example.gruppuppgift_safety.controller;
 
 import com.example.gruppuppgift_safety.model.AppUser;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,13 +16,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
+    private final Map<String, String> userEmails = new HashMap<>();
 
+    @Autowired
     public RegistrationController(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
@@ -50,10 +56,16 @@ public class RegistrationController {
                                         .build();
         ((InMemoryUserDetailsManager) userDetailsService).createUser(newUser);
 
+        userEmails.put(appUser.getName(), appUser.getEmail());
+
         model.addAttribute("user", appUser);
         model.addAttribute("userName", appUser.getName());
 
             return "regSuccessful";
 
+    }
+
+    public Map<String, String> getUserEmails() {
+        return userEmails;
     }
 }
