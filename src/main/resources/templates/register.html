@@ -21,6 +21,7 @@
 <div align="center">
     <h1>User Registration</h1>
     <form action="#" th:action="@{/register}" method="post" th:object="${user}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <label>Name:</label>
         <input type="text" th:field="*{name}" />
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span><br/>

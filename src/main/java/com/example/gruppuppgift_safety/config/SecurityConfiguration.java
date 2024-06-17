@@ -10,10 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfiguration{
 
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
@@ -27,6 +28,15 @@ public class SecurityConfiguration {
                                 .defaultSuccessUrl("/", true)
                                 .failureUrl("/login?error=true")
                                 .permitAll()
+                )
+                .logout(logout ->
+                logout
+                        .logoutUrl("/performLogout")
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
+                )
+                .csrf(csrf ->
+                        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 );
         return http.build();
     }

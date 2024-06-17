@@ -32,7 +32,7 @@ public class RegistrationController {
         model.addAttribute("user", new AppUser());
         return "register";
     }
-
+ 
 
     @PostMapping
     public String registerUser(@Valid @ModelAttribute("user") AppUser appUser,BindingResult bindingResult, Model model){

@@ -15,6 +15,12 @@
         <li><a href="/register">Registration</a> </li>
         <li><a href="/manageuser">Manage users</a></li>
         <li><a href="/admin">Admin</a> </li>
+        <li>
+            <form th:action="@{/performLogout}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="submit" value="Logout" />
+            </form>
+        </li>
     </ul>
     </nav>
 </header>
