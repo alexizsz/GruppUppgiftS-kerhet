@@ -1,5 +1,6 @@
 package com.example.gruppuppgift_safety.controller;
 
+import com.example.gruppuppgift_safety.utility.HtmlUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,9 +23,12 @@ public class UserManagementController {
 
     private final UserDetailsService userDetailsService;
     private final RegistrationController registrationController;
+    private final HtmlUtility htmlUtility;
+
 
     @Autowired
-    public UserManagementController(UserDetailsService userDetailsService, RegistrationController registrationController) {
+    public UserManagementController(HtmlUtility htmlUtility, UserDetailsService userDetailsService, RegistrationController registrationController) {
+        this.htmlUtility = htmlUtility;
         this.userDetailsService = userDetailsService;
         this.registrationController = registrationController;
     }
@@ -42,8 +46,15 @@ public class UserManagementController {
         }catch(NoSuchFieldException | SecurityException | IllegalAccessException e){
             e.printStackTrace();
         }
+        List<String> maskedEmails = new ArrayList<>();
+        for (UserDetails user : users) {
+            String username = user.getUsername();
+            String email = userEmails.get(username);
+            String maskedEmail = htmlUtility.maskEmail(email);
+            maskedEmails.add(maskedEmail);
+        }
         model.addAttribute("users", users);
-        model.addAttribute("userEmails", userEmails);
+        model.addAttribute("userEmails", maskedEmails);
         if (errorUsername != null) {
             model.addAttribute("errorUsername", errorUsername);
         }
