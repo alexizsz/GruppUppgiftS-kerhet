@@ -30,7 +30,7 @@ public class UserManagementController {
     }
 
     @GetMapping
-    public String userManagementPage(Model model, @RequestParam(value="error", required=false) String error) {
+    public String userManagementPage(Model model, @RequestParam(value = "errorUsername", required = false) String errorUsername) {
         InMemoryUserDetailsManager userDetailsManager = (InMemoryUserDetailsManager) userDetailsService;
         List<UserDetails> users = new ArrayList<>();
         Map<String, String> userEmails = registrationController.getUserEmails();
@@ -44,28 +44,25 @@ public class UserManagementController {
         }
         model.addAttribute("users", users);
         model.addAttribute("userEmails", userEmails);
-        if (error != null) {
-            model.addAttribute("error", error);
+        if (errorUsername != null) {
+            model.addAttribute("errorUsername", errorUsername);
         }
 
         return "manageuser";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@RequestParam("username") String username, @RequestParam("email") String email) {
+    public String deleteUser(@RequestParam("username") String username, @RequestParam("email") String email, Model model) {
         InMemoryUserDetailsManager userDetailsManager = (InMemoryUserDetailsManager) userDetailsService;
         Map<String, String> userEmails = registrationController.getUserEmails();
         String registeredEmail = userEmails.get(username);
 
-        if(registeredEmail.equals(email)){
-            userDetailsManager.deleteUser(username);
-        }else {
-            return "redirect:/manageuser?error=Incorrect email for user " + username;
+        if (!registeredEmail.equals(email)) {
+            model.addAttribute("errorUsername", username);
+            return "redirect:/manageuser?errorUsername=" + username;
         }
 
-
-
+        userDetailsManager.deleteUser(username);
         return "redirect:/manageuser";
     }
-
 }
