@@ -12,7 +12,4 @@ public class Homepage {
     public String welcome(){
         return "homepage";
     }
-
-    
-
 }

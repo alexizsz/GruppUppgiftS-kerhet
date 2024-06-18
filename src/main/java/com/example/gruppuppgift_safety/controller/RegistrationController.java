@@ -42,20 +42,20 @@ public class RegistrationController {
 
     @GetMapping
     public String registrationForm(Model model){
+        logger.debug("Access of registration form");
         model.addAttribute("user", new AppUser());
         return "register";
     }
- 
 
     @PostMapping
     public String registerUser(@Valid @ModelAttribute("user") AppUser appUser,BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("error", "There are errors in the form, please correct them");
-            logger.debug("Registration form has validation errors for user {}", appUser.getName());
+            logger.debug("Form has validation errors for attempted registration of user: {}", appUser.getName());
             System.out.println(appUser);
             return "register";
         }
-        logger.debug("Registration request received for user with email {}", new MaskingUtils().maskEmail(appUser.getEmail()));
+        logger.debug("Registration for user with email {}", new MaskingUtils().maskEmail(appUser.getEmail()) + " done");
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
         UserDetails newUser = User.withUsername(appUser.getName())
