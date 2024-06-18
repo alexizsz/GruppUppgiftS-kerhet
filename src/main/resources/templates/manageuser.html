@@ -39,9 +39,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user, iterStat : ${users}">
+    <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
         <td th:text="${userEmails[iterStat.index]}"></td>
+        <td th:text="${userEmails[user.username]}"></td>
         <td th:text="${user.authorities}"></td>
         <td>
             <div class="action-container">
