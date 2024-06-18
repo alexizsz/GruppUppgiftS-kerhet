@@ -1,6 +1,5 @@
 package com.example.gruppuppgift_safety.config;
 
-import com.example.gruppuppgift_safety.utility.MaskingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -23,36 +22,44 @@ public class SecurityConfiguration{
 
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
+        logger.debug("Security Chain with HttpSecurity started");
         http
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/register", "/admin", "/manageuser").hasRole("ADMIN")
                                 .anyRequest().authenticated())
-                .formLogin(formLogin ->
+                .formLogin(formLogin ->{
                         formLogin
                                 .defaultSuccessUrl("/", true)
+                                .successHandler((request, response, authentication) -> {
+                                    String username = request.getParameter("username");
+                                    logger.warn("Login succeeded with for user : {}", username);
+                                    response.sendRedirect("/");
+                                })
                                 .failureUrl("/login?error=true")
                                 .failureHandler((request,response,exception)->{
                                     String username = request.getParameter("username");
                                     logger.warn("Login failed with attempted User name: {}", username);
                                     response.sendRedirect("/login?error=true");
                                 })
-                                .permitAll()
-                )
-                .logout(logout ->
+                                .permitAll();
+                })
+                .logout(logout ->{
                         logout
                         .logoutUrl("/performLogout")
                         .logoutSuccessUrl("/login")
-                        .permitAll()
-                )
-                .csrf(csrf ->
-                        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                );
+                        .permitAll();
+                })
+                .csrf(csrf ->{
+                        logger.debug("CSRF protection configuration deployed");
+                        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                });
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
+        logger.debug("Default users created");
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
         var user = User.builder()
                 .username("user")
@@ -73,5 +80,4 @@ public class SecurityConfiguration{
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
