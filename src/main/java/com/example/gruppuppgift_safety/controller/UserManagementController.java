@@ -1,7 +1,5 @@
 package com.example.gruppuppgift_safety.controller;
 
-import com.example.gruppuppgift_safety.utility.HtmlUtil;
-import com.example.gruppuppgift_safety.utility.MaskingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,13 +22,9 @@ public class UserManagementController {
 
     private final UserDetailsService userDetailsService;
     private final RegistrationController registrationController;
-    private final MaskingUtils maskingUtils;
-    private final HtmlUtil htmlUtil;
 
     @Autowired
-    public UserManagementController(HtmlUtil htmlUtil,MaskingUtils maskingUtils, UserDetailsService userDetailsService, RegistrationController registrationController) {
-        this.htmlUtil = htmlUtil;
-        this.maskingUtils = maskingUtils;
+    public UserManagementController(UserDetailsService userDetailsService, RegistrationController registrationController) {
         this.userDetailsService = userDetailsService;
         this.registrationController = registrationController;
     }
@@ -48,15 +42,8 @@ public class UserManagementController {
         }catch(NoSuchFieldException | SecurityException | IllegalAccessException e){
             e.printStackTrace();
         }
-        List<String> maskedEmails = new ArrayList<>();
-        for (UserDetails user : users) {
-            String username = user.getUsername();
-            String email = userEmails.get(username);
-            String maskedEmail = maskingUtils.maskEmail(email);
-            maskedEmails.add(htmlUtil.escapeHtml(maskedEmail));
-        }
         model.addAttribute("users", users);
-        model.addAttribute("userEmails", maskedEmails);
+        model.addAttribute("userEmails", userEmails);
         if (errorUsername != null) {
             model.addAttribute("errorUsername", errorUsername);
         }
@@ -76,6 +63,11 @@ public class UserManagementController {
         }
 
         userDetailsManager.deleteUser(username);
-        return "redirect:/manageuser";
+        return "deleteUserSuccessful";
+    }
+
+    @GetMapping("/deleteUserSuccessful")
+    public String deleteUserSuccessful(){
+        return "deleteUserSuccessful";
     }
 }
