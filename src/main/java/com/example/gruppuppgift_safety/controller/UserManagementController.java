@@ -47,7 +47,6 @@ public class UserManagementController {
         if (errorUsername != null) {
             model.addAttribute("errorUsername", errorUsername);
         }
-
         return "manageuser";
     }
 

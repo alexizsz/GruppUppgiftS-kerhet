@@ -24,7 +24,6 @@
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Registration</a></li>
             <li><a href="/manageuser">Manage users</a></li>
-            <li><a href="/admin">Admin</a></li>
         </ul>
     </nav>
 </header>
@@ -41,7 +40,7 @@
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
-        <td th:text="${userEmails[iterStat.index]}"></td>
+        <td th:text="${userEmails[userEmails]}"></td>
         <td th:text="${userEmails[user.username]}"></td>
         <td th:text="${user.authorities}"></td>
         <td>

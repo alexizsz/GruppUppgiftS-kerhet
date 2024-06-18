@@ -13,7 +13,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
+/**SecurityConfig klass som styr hur säkerheten för hemsidan ska se ut.
+*
+* I securityChain() bestämmer man dom olika momenten och hur dom ska hanteras.
+* authorizeHttpRequests bestämmer vilka behörigheter dom olika rollerna har.
+* formLogin bestämmer hur inloggning sker och hur både lyckad och misslyckad inloggning sker
+* logout bestämmer hur utloggning sker
+* csrf lägger till csrf-skydd
+*
+* userDetailsService() instansierar inMemoryUserDetailsManager där vi sparar användarna som skapas på hemsidan.
+* Skapar standardanvändarna admin & user där vi hårdkodat användarnamn&lösenord och
+*  med hjälp av passwordEncoder() krypterar vi lösenorden.
+*
+* Vi har även instasierat Logger och använder den för att båda beskriva metod och när någon data hanteras.
+* */
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration{
@@ -33,7 +46,7 @@ public class SecurityConfiguration{
                                 .defaultSuccessUrl("/", true)
                                 .successHandler((request, response, authentication) -> {
                                     String username = request.getParameter("username");
-                                    logger.warn("Login succeeded with for user : {}", username);
+                                    logger.warn("Login succeeded for user : {}", username);
                                     response.sendRedirect("/");
                                 })
                                 .failureUrl("/login?error=true")

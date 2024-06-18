@@ -22,7 +22,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**RegistrationController klass bestämmer hur registrering sker på hemsidan
+* Vi har instansierat dom klasser som behövs för att föra vidare, spara och hantera data på korrekt vis.
+* @Autowired
+* RegistrationController() är vart vi använder oss av Dependency injection.
+*
+* registrationForm(Model model) använder sig av thymeleaf och Model för att föra vidare den data vi vill använda oss av
+* här till HTML-sidor. I detta fall vill vi applicera en ny instansiering av användare till "formen" i html sidan.
+*
+* registerUser() skapar den nya användaren med hjälp av build() metoden. Vi sparar användarnamn, password(som blir
+* krypterat med hjälp av passwordEncoder) och vi sparar e-posten med hjälp av HtmlUtil.escapeHtml för att radera skadlig
+* kod. Sedan sparar vi vår användare till userDetailsService().
+* I början av metoden använder vi en if() metod för att fånga upp felmatad data beroende på dom "reglerna" vi satt
+* i vår AppUser (userDTO) klass.
+* Vi använder oss av Model för att spara och föra vidare information till html/thymeleaf hantering.
+* Logger används för att logga när data sparas/används och vid metodhändelser som är relevanta. Här används även
+* MaskingUtils.maskEmails för att maskera den email som används i loggen.
+* Vid lyckad registrering skickas man vidare till hemsidan där det står att registrering lyckats och vilken
+* användare som skapats.
+*
+*
+* */
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {

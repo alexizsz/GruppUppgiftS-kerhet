@@ -1,7 +1,9 @@
 package com.example.gruppuppgift_safety.model;
 
 import jakarta.validation.constraints.*;
-
+/**
+ * Klass för att föra vidare information mellan klasser. Innehåller ingen och ska inte innehålla någon affärslogik
+ * Vi använder oss av diverse inbyggda metoder från jakarta för att sätta restrains*/
 public class AppUser {
 
     @NotEmpty(message = "Name is required")
