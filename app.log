@@ -1,5 +1,10 @@
-2024-06-18 12:04:06 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Starting GruppUppgiftSafetyApplication using Java 20.0.2 with PID 17420 (C:\Users\alexi\IdeaProjects\GruppUppgift_Safety\target\classes started by alexi in C:\Users\alexi\IdeaProjects\GruppUppgift_Safety)
-2024-06-18 12:04:06 [main] DEBUG com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
-2024-06-18 12:04:06 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - No active profile set, falling back to 1 default profile: "default"
-2024-06-18 12:04:11 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Started GruppUppgiftSafetyApplication in 5.557 seconds (process running for 7.897)
-2024-06-18 12:04:40 [http-nio-8080-exec-4] DEBUG com.example.gruppuppgift_safety.controller.RegistrationController - Registration request received for user with email **************@gmail.com
+2024-06-18 14:19:01 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Starting GruppUppgiftSafetyApplication using Java 20.0.2 with PID 5096 (C:\Users\alexi\IdeaProjects\GruppUppgift_Safety\target\classes started by alexi in C:\Users\alexi\IdeaProjects\GruppUppgift_Safety)
+2024-06-18 14:19:01 [main] DEBUG com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2024-06-18 14:19:01 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-18 14:19:03 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Default users created
+2024-06-18 14:19:04 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Security Chain with HttpSecurity started
+2024-06-18 14:19:04 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - CSRF protection configuration deployed
+2024-06-18 14:19:05 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Started GruppUppgiftSafetyApplication in 3.832 seconds (process running for 5.144)
+2024-06-18 14:19:08 [http-nio-8080-exec-6] WARN  com.example.gruppuppgift_safety.config.SecurityConfiguration - Login succeeded with for user : admin
+2024-06-18 14:19:12 [http-nio-8080-exec-1] DEBUG com.example.gruppuppgift_safety.controller.RegistrationController - Access of registration form
+2024-06-18 14:19:17 [http-nio-8080-exec-5] DEBUG com.example.gruppuppgift_safety.controller.RegistrationController - Registration for user with email ***************@gmail.com done
