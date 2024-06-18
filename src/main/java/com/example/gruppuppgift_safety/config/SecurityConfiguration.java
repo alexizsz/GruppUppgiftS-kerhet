@@ -1,5 +1,8 @@
 package com.example.gruppuppgift_safety.config;
 
+import com.example.gruppuppgift_safety.utility.MaskingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +19,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Configuration
 public class SecurityConfiguration{
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
         http
@@ -27,10 +32,15 @@ public class SecurityConfiguration{
                         formLogin
                                 .defaultSuccessUrl("/", true)
                                 .failureUrl("/login?error=true")
+                                .failureHandler((request,response,exception)->{
+                                    String username = request.getParameter("username");
+                                    logger.warn("Login failed with attempted User name: {}", username);
+                                    response.sendRedirect("/login?error=true");
+                                })
                                 .permitAll()
                 )
                 .logout(logout ->
-                logout
+                        logout
                         .logoutUrl("/performLogout")
                         .logoutSuccessUrl("/login")
                         .permitAll()
@@ -58,7 +68,6 @@ public class SecurityConfiguration{
         userDetailsManager.createUser(admin);
         return userDetailsManager;
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

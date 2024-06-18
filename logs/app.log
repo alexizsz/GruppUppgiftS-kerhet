@@ -1,0 +1,4 @@
+2024-06-18 10:11:57 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Starting GruppUppgiftSafetyApplication using Java 20.0.2 with PID 23892 (C:\Users\alexi\IdeaProjects\GruppUppgift_Safety\target\classes started by alexi in C:\Users\alexi\IdeaProjects\GruppUppgift_Safety)
+2024-06-18 10:11:57 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-18 10:12:02 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Started GruppUppgiftSafetyApplication in 6.378 seconds (process running for 9.016)
+2024-06-18 10:12:58 [http-nio-8080-exec-4] WARN  com.example.gruppuppgift_safety.config.SecurityConfiguration - Login failed with attempted User name: bla bla 

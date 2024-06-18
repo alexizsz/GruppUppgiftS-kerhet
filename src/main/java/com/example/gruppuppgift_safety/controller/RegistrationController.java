@@ -2,7 +2,10 @@ package com.example.gruppuppgift_safety.controller;
 
 import com.example.gruppuppgift_safety.model.AppUser;
 import com.example.gruppuppgift_safety.utility.HtmlUtil;
+import com.example.gruppuppgift_safety.utility.MaskingUtils;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,13 +27,14 @@ import java.util.Map;
 @RequestMapping("/register")
 public class RegistrationController {
 
+    private final static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final Map<String, String> userEmails = new HashMap<>();
     private final HtmlUtil htmlUtil;
 
     @Autowired
-    public RegistrationController(HtmlUtil htmlUtil, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
+    public RegistrationController(HtmlUtil htmlUtil, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, MaskingUtils maskingUtils) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
         this.htmlUtil = htmlUtil;
@@ -47,10 +51,11 @@ public class RegistrationController {
     public String registerUser(@Valid @ModelAttribute("user") AppUser appUser,BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("error", "There are errors in the form, please correct them");
+            logger.debug("Registration form has validation errors for user {}", appUser.getName());
             System.out.println(appUser);
             return "register";
         }
-
+        logger.debug("Registration request received for user with email {}", new MaskingUtils().maskEmail(appUser.getEmail()));
         String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
         UserDetails newUser = User.withUsername(appUser.getName())

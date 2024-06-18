@@ -41,7 +41,7 @@
     <tbody>
     <tr th:each="user, iterStat : ${users}">
         <td th:text="${user.username}"></td>
-        <td th:text="${userEmails[iterStat.index]}"></td> <!-- Display email -->
+        <td th:text="${userEmails[iterStat.index]}"></td>
         <td th:text="${user.authorities}"></td>
         <td>
             <div class="action-container">
