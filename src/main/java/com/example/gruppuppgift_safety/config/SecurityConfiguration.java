@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -41,6 +42,7 @@ public class SecurityConfiguration{
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/register", "/admin", "/manageuser").hasRole("ADMIN")
                                 .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults()) //HTTP basic ingång
                 .formLogin(formLogin ->{
                         formLogin
                                 .defaultSuccessUrl("/", true)
@@ -63,7 +65,8 @@ public class SecurityConfiguration{
                         .logoutSuccessUrl("/login")
                         .permitAll();
                 })
-                .csrf(csrf ->{
+//                .csrf(csrf -> csrf.disable()); // disabled for testing
+               .csrf(csrf -> {
                         logger.debug("CSRF protection configuration deployed");
                         csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                 });

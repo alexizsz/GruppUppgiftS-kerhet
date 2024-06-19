@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,8 +21,7 @@ public class HomepageTest {
     @Test
     public void testHomepageUnauthenticated() throws Exception {
         mockMvc.perform(get("/")) // Gör ett HTTP GET-request till "/"
-                .andExpect(status().isFound()) // Förväntar sig att HTTP-status är 302 (Found/Redirect)
-                .andExpect(result -> assertEquals("http://localhost/login", result.getResponse().getRedirectedUrl())); // Förväntar sig att omdirigeringen går till "/login"
+                .andExpect(status().isUnauthorized()); // // Förväntar sig HTTP 401 Unauthorized
     }
 
     // Testfall för autentiserad åtkomst till första-sidan med användarrollen "USER"

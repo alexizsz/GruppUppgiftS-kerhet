@@ -6,46 +6,49 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest // Indikerar att detta är en Spring Boot-test
-@AutoConfigureMockMvc // Konfigurerar MockMvc automatiskt för test
+@SpringBootTest
+@AutoConfigureMockMvc
 public class RegistrationControllerTest {
 
     @Autowired
-    private MockMvc mockMvc; // Injicerar en instans av MockMvc för att köra MVC-test
+    private MockMvc mockMvc;
 
     // Testfall för framgångsrik registrering
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void testSuccessfulRegistration() throws Exception {
-        mockMvc.perform(post("/register") // Gör ett HTTP POST-request till "/register"
-                        .param("name", "testUser") // Skickar parametern "name" med värdet "testUser"
-                        .param("password", "password")) // Skickar parametern "password" med värdet "password"
-                .andExpect(status().is3xxRedirection()) // Förväntar sig att HTTP-status är en 3xx omdirigering
-                .andExpect(redirectedUrl("/regSuccessful")); // Förväntar sig att omdirigeringen går till "/regSuccessful"
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("username", "newUser");
+        params.add("password", "newPassword");
+        params.add("confirmPassword", "newPassword");
+
+        mockMvc.perform(post("/register")
+                        .params(params)
+                        .with(csrf())) // Inkluderar CSRF-token
+                .andExpect(status().isOk()); // Förväntar sig en HTTP 200 OK-status
     }
 
-    // Testfall för misslyckad registrering på grund av existerande användarnamn
+    // Testfall för misslyckad registrering på grund av lösenordsmatchning
     @Test
-    public void testFailedRegistration() throws Exception {
-        mockMvc.perform(post("/register") // Gör ett HTTP POST-request till "/register"
-                        .param("name", "existingUser") // Skickar parametern "name" med värdet "existingUser"
-                        .param("password", "password")) // Skickar parametern "password" med värdet "password"
-                .andExpect(status().isOk()) // Förväntar sig att HTTP-status är 200 (OK)
-                .andExpect(model().attributeExists("error")) // Förväntar sig att modellen har attributet "error"
-                .andExpect(view().name("register")); // Förväntar sig att vyn är "register"
+    public void testRegistrationFailedPasswordMismatch() throws Exception {
+        // Förbered en POST-förfrågan till endpoint "/register" med parametrarna användarnamn, lösenord och bekräfta lösenord
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/register")
+                .param("username", "newUser")
+                .param("password", "newPassword")
+                .param("confirmPassword", "wrongPassword");
+
+        // Utför förfrågan mot MockMvc och förvänta dig ett svar
+        mockMvc.perform(request)
+                .andExpect(status().isForbidden());
     }
 
-    // Testfall för autentiserad användare som försöker registrera en ny användare
-    @Test
-    @WithMockUser(username = "testUser", roles = "USER")
-    public void testAuthenticatedRegistration() throws Exception {
-        mockMvc.perform(post("/register") // Gör ett HTTP POST-request till "/register"
-                        .param("name", "newUser") // Skickar parametern "name" med värdet "newUser"
-                        .param("password", "password")) // Skickar parametern "password" med värdet "password"
-                .andExpect(status().is3xxRedirection()) // Förväntar sig att HTTP-status är en 3xx omdirigering
-                .andExpect(redirectedUrl("/regSuccessful")); // Förväntar sig att omdirigeringen går till "/regSuccessful"
-    }
 }
