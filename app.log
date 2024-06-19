@@ -1,9 +1,7 @@
-2024-06-19 09:45:09 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Starting GruppUppgiftSafetyApplication using Java 20.0.2 with PID 7580 (C:\Users\alexi\IdeaProjects\GruppUppgift_Safety\target\classes started by alexi in C:\Users\alexi\IdeaProjects\GruppUppgift_Safety)
-2024-06-19 09:45:09 [main] DEBUG com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
-2024-06-19 09:45:09 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - No active profile set, falling back to 1 default profile: "default"
-2024-06-19 09:45:15 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Default users created
-2024-06-19 09:45:16 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Security Chain with HttpSecurity started
-2024-06-19 09:45:16 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - CSRF protection configuration deployed
-2024-06-19 09:45:17 [main] INFO  com.example.gruppuppgift_safety.GruppUppgiftSafetyApplication - Started GruppUppgiftSafetyApplication in 9.214 seconds (process running for 12.279)
-2024-06-19 09:45:23 [http-nio-8080-exec-7] WARN  com.example.gruppuppgift_safety.config.SecurityConfiguration - Login succeeded for user : admin
-2024-06-19 09:45:31 [http-nio-8080-exec-6] DEBUG com.example.gruppuppgift_safety.controller.RegistrationController - Access of registration form
+2024-06-19 14:33:30 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Starting RegistrationControllerTest using Java 22.0.1 with PID 19604 (started by User in C:\Users\User\OneDrive\Skrivbord\Gruppprojekt_IT_InfoSafety)
+2024-06-19 14:33:30 [main] DEBUG com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Running with Spring Boot v3.3.0, Spring v6.1.8
+2024-06-19 14:33:30 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - No active profile set, falling back to 1 default profile: "default"
+2024-06-19 14:33:31 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Default users created
+2024-06-19 14:33:32 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Security Chain with HttpSecurity started
+2024-06-19 14:33:32 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - CSRF protection configuration deployed
+2024-06-19 14:33:32 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Started RegistrationControllerTest in 2.687 seconds (process running for 4.463)

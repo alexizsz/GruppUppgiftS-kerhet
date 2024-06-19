@@ -11,25 +11,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest // Indikerar att detta är en Spring Boot-test
+@AutoConfigureMockMvc // Konfigurerar MockMvc automatiskt för test
 public class HomepageTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc; // Injicerar en instans av MockMvc för att köra MVC-test
 
+    // Testfall för o-autentiserad åtkomst till första-sidan
     @Test
     public void testHomepageUnauthenticated() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isFound())
-                .andExpect(result -> assertEquals("http://localhost/login", result.getResponse().getRedirectedUrl()));
+        mockMvc.perform(get("/")) // Gör ett HTTP GET-request till "/"
+                .andExpect(status().isFound()) // Förväntar sig att HTTP-status är 302 (Found/Redirect)
+                .andExpect(result -> assertEquals("http://localhost/login", result.getResponse().getRedirectedUrl())); // Förväntar sig att omdirigeringen går till "/login"
     }
 
+    // Testfall för autentiserad åtkomst till första-sidan med användarrollen "USER"
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     public void testHomepageAuthenticated() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/")) // Gör ett HTTP GET-request till "/"
+                .andExpect(status().isOk()); // Förväntar sig att HTTP-status är 200 (OK)
     }
 
 }
