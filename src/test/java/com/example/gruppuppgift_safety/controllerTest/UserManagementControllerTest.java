@@ -1,51 +1,99 @@
 package com.example.gruppuppgift_safety.controllerTest;
 
+import com.example.gruppuppgift_safety.controller.RegistrationController;
 import com.example.gruppuppgift_safety.controller.UserManagementController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-// Testklass för att testa UserManagementController.
-@SpringBootTest
-@AutoConfigureMockMvc
-public class UserManagementControllerTest {
+@WebMvcTest(UserManagementController.class)
+class UserManagementControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private UserManagementController userManagementController; // Instans av UserManagementController att testa
+    @MockBean
+    private InMemoryUserDetailsManager userDetailsManager;
 
-    // Metod som körs innan varje testfall för att konfigurera testmiljön.
+    @MockBean
+    private RegistrationController registrationController;
+
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this); // Öppnar mockarna för annotationer
-        mockMvc = MockMvcBuilders.standaloneSetup(userManagementController).build(); // Konfigurerar MockMvc med UserManagementController
+    void setUp() throws Exception {
+        // Mock the behavior of the registrationController
+        Map<String, String> mockUserEmails = new HashMap<>();
+        mockUserEmails.put("testuser", "testuser@example.com");
+        Mockito.when(registrationController.getUserEmails()).thenReturn(mockUserEmails);
+
+        // Mock the behavior of the userDetailsManager
+        UserDetails user = org.springframework.security.core.userdetails.User
+                .withUsername("testuser")
+                .password("password")
+                .roles("USER")
+                .build();
+        Mockito.when(userDetailsManager.loadUserByUsername("testuser")).thenReturn(user);
+
+        // Mock the users field in InMemoryUserDetailsManager
+        Field field = InMemoryUserDetailsManager.class.getDeclaredField("users");
+        field.setAccessible(true);
+        Map<String, UserDetails> usersMap = new HashMap<>();
+        usersMap.put("testuser", user);
+        field.set(userDetailsManager, usersMap);
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
-    public void testDeleteUser_SuccessfulDeletion() throws Exception {
-        mockMvc.perform(post("/delete").param("email", "test@example.com"))
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void getUserManagementPageAuthenticated() throws Exception {
+        mockMvc.perform(get("/manageuser"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("delete_success"));
+                .andExpect(view().name("manageuser"))
+                .andExpect(model().attributeExists("users"))
+                .andExpect(model().attributeExists("userEmails"));
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
-    public void testDeleteUser_NotFound() throws Exception {
-        mockMvc.perform(post("/delete").param("email", "wrong@example.com"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("user_not_found"));
+    void getUserManagementPageUnauthenticated() throws Exception {
+        mockMvc.perform(get("/manageuser"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void deleteUserSuccess() throws Exception {
+        Mockito.doNothing().when(userDetailsManager).deleteUser("testuser");
+
+        mockMvc.perform(post("/manageuser/delete")
+                        .param("username", "testuser")
+                        .param("email", "testuser@example.com")
+                        .with(csrf()))
+                .andExpect(status().isOk()) // Uppdatera förväntan till 200 OK
+                .andExpect(view().name("deleteUserSuccessful")); // Kontrollera att view name är korrekt
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void deleteUserFailure() throws Exception {
+        mockMvc.perform(post("/manageuser/delete")
+                        .param("username", "testuser")
+                        .param("email", "wrongemail@example.com")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/manageuser?errorUsername=testuser"));
     }
 }

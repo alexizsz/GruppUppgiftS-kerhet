@@ -1,7 +1,9 @@
-2024-06-19 23:58:56 [main] INFO  com.example.gruppuppgift_safety.controllerTest.UserManagementControllerTest - Starting UserManagementControllerTest using Java 22.0.1 with PID 11528 (started by User in C:\Users\User\OneDrive\Skrivbord\Gruppprojekt_IT_InfoSafety)
-2024-06-19 23:58:56 [main] DEBUG com.example.gruppuppgift_safety.controllerTest.UserManagementControllerTest - Running with Spring Boot v3.3.0, Spring v6.1.8
-2024-06-19 23:58:56 [main] INFO  com.example.gruppuppgift_safety.controllerTest.UserManagementControllerTest - No active profile set, falling back to 1 default profile: "default"
-2024-06-19 23:58:58 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Default users created
-2024-06-19 23:58:58 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Security Chain with HttpSecurity started
-2024-06-19 23:58:58 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - CSRF protection configuration deployed
-2024-06-19 23:58:59 [main] INFO  com.example.gruppuppgift_safety.controllerTest.UserManagementControllerTest - Started UserManagementControllerTest in 2.65 seconds (process running for 4.312)
+2024-06-20 18:27:18 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Starting RegistrationControllerTest using Java 22.0.1 with PID 22568 (started by User in C:\Users\User\OneDrive\Skrivbord\Gruppprojekt_IT_InfoSafety)
+2024-06-20 18:27:18 [main] DEBUG com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Running with Spring Boot v3.3.0, Spring v6.1.8
+2024-06-20 18:27:18 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - No active profile set, falling back to 1 default profile: "default"
+2024-06-20 18:27:19 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Default users created
+2024-06-20 18:27:20 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - Security Chain with HttpSecurity started
+2024-06-20 18:27:20 [main] DEBUG com.example.gruppuppgift_safety.config.SecurityConfiguration - CSRF protection configuration deployed
+2024-06-20 18:27:20 [main] INFO  com.example.gruppuppgift_safety.controllerTest.RegistrationControllerTest - Started RegistrationControllerTest in 2.685 seconds (process running for 4.377)
+2024-06-20 18:27:21 [main] DEBUG 2024-06-20 18:28:11 [http-nio-8080-exec-3] WARN  com.example.gruppuppgift_safety.config.SecurityConfiguration - Login succeeded for user : admin
+2024-06-20 18:28:15 [http-nio-8080-exec-9] DEBUG com.example.gruppuppgift_safety.controller.RegistrationController - Access of registration form
